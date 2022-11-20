@@ -1,6 +1,7 @@
 /* main JS file */
 let myBarChart;
 let myCirlceChart;
+let myAreaChart;
 
 let promises = [
     d3.csv("data/wordData.csv"),
@@ -15,14 +16,11 @@ Promise.all(promises)
         console.log(err)
     });
 
-function updateVisualization(orders) {
-	console.log(orders);
-
-}
-
 function initMainPage(dataArray){
     // myBarChart = new MatrixTable('matrixDiv', dataArray[0])
     console.log(dataArray[0])
     console.log(dataArray[1])
+
+    myAreaChart = new areaChartViz("areaChart", dataArray[0])
 
 }
