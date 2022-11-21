@@ -22,5 +22,6 @@ function initMainPage(dataArray){
     console.log(dataArray[1])
 
     myAreaChart = new areaChartViz("areaChart", dataArray[0])
+    myBarChart = new groupedBarChartViz("groupedBarChart", dataArray[0])
 
 }
