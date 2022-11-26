@@ -110,9 +110,7 @@ class areaChartViz{
                     // return vis.colorScale(d)
                 })
                 .attr("d", vis.area)
-                
-        console.log(vis.stackedData)
-        console.log(vis.area(vis.stackedData[0]))
+
       // Add the brushing
         vis.areaChart
         .append("g")

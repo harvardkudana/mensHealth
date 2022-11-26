@@ -124,13 +124,6 @@ class circleChartViz{
             sizes.push(circle)
         }
 
-        
- 
-
-        circles.enter().append("circle")
-        .attr("class", "bar")
-        .attr("fill", "#8b4513")
-
         circles
         .enter().append("circle")
         .style("stroke", "gray")
@@ -177,6 +170,10 @@ class circleChartViz{
 
 
         let distance = Math.sqrt(Math.pow(x1 - x2, 2) + (Math.pow(y1 - y2, 2)));
+        if (distance + radius2 == radius1 || distance + radius1 == radius2){
+            return true
+        }
+
         return distance <= (radius1 + radius2) && distance >= Math.abs(radius1 - radius2)
 }
 
