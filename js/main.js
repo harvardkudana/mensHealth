@@ -3,6 +3,7 @@ let myBarChart;
 let myCirlceChart;
 let myAreaChart;
 let myHeatMap;
+let myWordTree;
 
 
 let promises = [
@@ -26,5 +27,6 @@ function initMainPage(dataArray){
     myAreaChart = new areaChartViz("areaChart", dataArray[0])
     myCirlceChart = new circleChartViz("circleChart", dataArray[0])
     myHeatMap = new heatMapViz("heatMap", dataArray[0])
+    myWordTree = new wordTreeViz("wordTree", dataArray[0], dataArray[1])
 
 }
