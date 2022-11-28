@@ -23,7 +23,6 @@ function initMainPage(dataArray){
     console.log(dataArray[1])
 
     myAreaChart = new areaChartViz("areaChart", dataArray[0])
-    myCirlceChart = new circleChartViz("circleChart", dataArray[0])
-    myHeatMap = new heatMapViz("heatMap", dataArray[0])
+
 
 }
