@@ -2,6 +2,7 @@
 let myBarChart;
 let myCirlceChart;
 let myAreaChart;
+let myHeatMap;
 
 let promises = [
     d3.csv("data/wordData.csv"),
@@ -22,6 +23,6 @@ function initMainPage(dataArray){
     console.log(dataArray[1])
 
     myAreaChart = new areaChartViz("areaChart", dataArray[0])
-    myBarChart = new groupedBarChartViz("groupedBarChart", dataArray[0])
+
 
 }

@@ -21,44 +21,39 @@
 	<div class="container-fluid" style="border: thin solid grey; border-radius: 5px">
 		<div class="row justify-content-center" style="height: 12vh; background: #22223b;">
 			<div class="align-self-center">
-				<h1 style="color: #F2E9E4">CS 171 Boilerplate</h1>
+				<h1 style="color: #F2E9E4; text-anchor: middle;">Men's Health Magazine Overtime</h1>
 			</div>
 		</div>
-		<div class="row" style="height: 70vh">
-			<div class="col-6" style="background: #4A4E69">
+        <div class="row" style="height: 70vh">
+            
+			<div class="col-6" style="background: #ffffff">
 				<div class="row justify-content-center" style="height: 100%">
 					<div class="align-self-center">
-						<p>left</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-6" style="background: #9A8C98">
-				<div class="row justify-content-center" style="height: 100%">
-					<div class="align-self-center">
-                        <div id="areaChart"
+                        <div id="circleChart"
                         style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);"></div></div>
+				        </div>
+                    </div>
+			</div>
+			<div class="col-6" style="background: #ffffff">
+				<div class="row justify-content-center" style="height: 100%">
+					<div class="row justify-content-center" style="height: 100%">
+						<div class="align-self-center">
+							<div id="areaChart"
+							style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(255, 255, 255, 0.4);">
+						</div>
 					</div>
-				</div>
 			</div>
 		</div>
-		<div class="row" style="height: 70vh">
-			<div class="col" style="background: #FAF9F6">
-				<h2 style="margin: 2vh">Have Suggested Health Solutions Become Less Time Consuming?</h2>
-				<div id="groupedBarChart"></div>
-			</div>
-			<div class="col" style="background: #FAF9F6">
+		<div class="row" style="height: 7vh; background: #C9ADA7">
+			<div class="row justify-content-center" style="height: 100%">
 				<div class="row justify-content-center" style="height: 100%">
 					<div class="align-self-center">
-						<ul>
-							<li style="color: orange">Less Than a Day</li>
-							<li style="color: blue">Between a Day and a Month</li>
-							<li style="color: green">A Month+</li>
-						</ul>
+						<div id="heatMap"
+						style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(255, 255, 255, 0.4);">
 					</div>
 				</div>
-			</div>
 		</div>
-		<div class="row" style="height: 7vh; background: #C9ADA7"></div>
+
 	</div>
 
 
@@ -71,7 +66,7 @@
 	<!-- own js files -->
     <script src="js/main.js"></script>
     <script src="js/areaChartViz.js"></script>
-	<script src="js/groupedBarChartViz.js"></script>
+
 
 	</body>
 </html>
