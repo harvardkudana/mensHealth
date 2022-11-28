@@ -4,6 +4,7 @@ let myCirlceChart;
 let myAreaChart;
 let myHeatMap;
 
+
 let promises = [
     d3.csv("data/wordData.csv"),
     d3.csv("data/word-pairData.csv")

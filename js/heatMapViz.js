@@ -2,14 +2,11 @@ class heatMapViz{
     constructor(parentElement, wordData) {
         this.parentElement = parentElement;
         this.wordData = wordData;
-        this.colors = d3.scaleQuantize()
-        .range(["#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598", 
-        "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142"]);
 
         this.parseDate = d3.timeParse("%Y-%m-%d");
         this.month = ["Jan","Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-
+        this.ofRace = false;
         this.initVis();
     }
 
@@ -26,16 +23,45 @@ class heatMapViz{
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+        vis.svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", vis.width)
+        .attr("y", vis.height+40 )
+        .text("Year");
+
+
+        let chartTitle = ""; 
+        if(vis.ofRace == false){
+            chartTitle = "# of words / magazine"
+            vis.color = d3.scaleSequential()
+            .interpolator(d3.interpolateInferno)
+        }
+        else{
+            chartTitle = "Race of cover  model"
+            vis.color = {"white":"white", "black":"#422518", "asian":"orange"}
+        }
+
+        vis.svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", 0)
+        .attr("y", -20 )
+        .text(chartTitle)
+        .attr("text-anchor", "start")
+
+
         for (let x = 0; x < vis.wordData.length; x++){
             vis.wordData[x]["date"] = vis.parseDate( vis.wordData[x]["date"].substring(0,10))
         }
 
         vis.wrangleData();
 
-        vis.color = d3.scaleSequential()
-        .interpolator(d3.interpolateInferno)
+        vis.tooltip =d3.select("#" + vis.parentElement).append('div')
+        .attr('class', "tooltip")
+        .attr('id', 'magTooltip')
+        .attr("width", 100)
+        .attr("height", 100)
 
-
+    
         vis.y = d3.scaleBand()
         .range([vis.height, 0])
         .domain(vis.month);
@@ -74,10 +100,23 @@ class heatMapViz{
 
         for (let x = 0; x < vis.wordData.length; x++){
             if (cleanedDict[vis.wordData[x]["date"]] == null) {
-                cleanedDict[vis.wordData[x]["date"]] = 1;
+                if(vis.ofRace){
+                    cleanedDict[vis.wordData[x]["date"]] = vis.wordData[x]["race"];
+                }
+                else{
+                    cleanedDict[vis.wordData[x]["date"]] = 1;
+                }
             }
-            else{
+            else if (vis.ofRace == false){
                 cleanedDict[vis.wordData[x]["date"]] = 1 + cleanedDict[vis.wordData[x]["date"]]
+            }
+        }
+
+        vis.picDict = {};
+        
+        for (let x = 0; x < vis.wordData.length; x++){
+            if (vis.picDict[vis.wordData[x]["date"]] == null) {
+                    vis.picDict[vis.wordData[x]["date"]] = vis.wordData[x]["id"];            
             }
         }
         vis.cleanedList = []
@@ -96,17 +135,25 @@ class heatMapViz{
         for (let x = 0; x <= (lastYear - firstYear); x++){
             vis.years[x] = x + firstYear
         }
+        if (!vis.ofRace){
+            let arr = d3.extent(vis.cleanedList, d=>{
+                return d[1]
+              });
+            vis.min = arr[0]
+    
+            vis.max = arr[1]
+        }
     }
 
     updateVis(){
         let vis = this; 		// Call axis functions with the new domain
         
-        vis.color
-        .domain(d3.extent(vis.cleanedList, d=>{
-            return d[1]
-          }))
+        if(!vis.ofRace){
+            vis.color
+            .domain([vis.min,vis.max])
+        }
 
-       vis.svg.selectAll()
+        vis.svg.selectAll()
        .data(vis.cleanedList)
        .enter()
        .append("rect")
@@ -125,9 +172,117 @@ class heatMapViz{
         .attr("width", vis.y.bandwidth )
         .attr("height", vis.y.bandwidth )
         .style("fill", (d) => {
-            console.log(d)
+            if(vis.ofRace){
+                return vis.color[d[1]]
+            }
             return vis.color(d[1])
         })
+        .on('mouseover', function(event, d){
+
+            let jpeg = ""            
+            jpeg = "imgs/" + vis.picDict[d[0]] + ".jpg" 
+            d3.select(this)
+            .attr('stroke-width', '2px')
+            .attr('stroke', 'black')
+            
+            vis.tooltip
+            .style("opacity", 1)
+            .attr("x", 0)
+            .attr("y", 10)
+            .style("left", event.pageX + 20 + "px")
+            .style("top", event.pageY + "px")
+            .html(`
+                <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
+                    <img src="${jpeg}" alt="image is not available" height = "200" width = "150">                                                                      
+                </div>
+                `);
+        })
+        .on('mouseout', function(event, d){
+            d3.select(this)
+                .attr('stroke-width', '0px')
+            
+            vis.tooltip
+                .style("opacity", 0)
+                .style("left", 0)
+                .style("top", 0)
+                .html(``);
+        });
+
+        vis.svg.append("rect")
+        .attr("x", 200)
+        .attr("y", -35)
+        .attr("rx", 4)
+        .attr("ry", 4)
+        .attr("width", vis.y.bandwidth )
+        .attr("height", vis.y.bandwidth )
+        .style("fill", (d) => {
+            if(vis.ofRace){
+                return vis.color["white"]
+            }
+            return vis.color(vis.min)
+        })
+
+        vis.svg.append("rect")
+        .attr("x", 300)
+        .attr("y", -35)
+        .attr("rx", 4)
+        .attr("ry", 4)
+        .attr("width", vis.y.bandwidth )
+        .attr("height", vis.y.bandwidth )
+        .style("fill", (d) => {
+            if(vis.ofRace){
+                return vis.color["black"]
+            }
+            return vis.color(vis.max)
+        })
+
+        let boxOne = "Max"
+        let boxTwo = "Min"
+        if(vis.ofRace){
+            boxOne = "black"
+            boxTwo = "white"
+
+            vis.svg.append("text")
+            .text("asian")
+            .attr("x", 530)
+            .attr("y", -15)
+    
+            vis.svg.append("text")
+            .text("other")
+            .attr("x", 430)
+            .attr("y", -15)
+
+            vis.svg.append("rect")
+            .attr("x", 500)
+            .attr("y", -35)
+            .attr("rx", 4)
+            .attr("ry", 4)
+            .attr("width", vis.y.bandwidth )
+            .attr("height", vis.y.bandwidth )
+            .style("fill", (d) => {
+                return "orange"
+            })
+    
+            vis.svg.append("rect")
+            .attr("x", 400)
+            .attr("y", -35)
+            .attr("rx", 4)
+            .attr("ry", 4)
+            .attr("width", vis.y.bandwidth )
+            .attr("height", vis.y.bandwidth )
+            .style("fill", (d) => {
+                return "black"
+            })
+        }
+        vis.svg.append("text")
+        .text(boxOne)
+        .attr("x", 330)
+        .attr("y", -15)
+
+        vis.svg.append("text")
+        .text(boxTwo)
+        .attr("x", 230)
+        .attr("y", -15)
 
  
 		vis.svg.select(".x-axis").call(vis.xAxis);
