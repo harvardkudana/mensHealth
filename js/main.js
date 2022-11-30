@@ -5,6 +5,7 @@ let myAreaChart;
 let myHeatMap;
 let myWordTree;
 let myBirthdayViz;
+let myLineChartViz;
 
 
 let promises = [
@@ -25,11 +26,14 @@ function initMainPage(dataArray){
     console.log(dataArray[0])
     console.log(dataArray[1])
 
+
     myAreaChart = new areaChartViz("areaChart", dataArray[0])
     myHeatMap = new heatMapViz("heatMap", dataArray[0])
     myWordTree = new wordTreeViz("wordTree","muscle", dataArray[0], dataArray[1])
     myCirlceChart = new circleChartViz("circleChart", dataArray[0], dataArray[1], myWordTree )
     myBirthdayViz = new brithdayViz("birthdayViz")
+    myBarChart = new groupedBarChartViz("groupedBarChart", dataArray[0])
+    myLineChartViz = new lineChartViz("lineChart", dataArray[0])
 
 }
 
