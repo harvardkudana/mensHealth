@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>CS171 - Boilerplate</title>
+		<title>Men's Health</title>
 
 		<!-- Load CSS libraries -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
@@ -18,68 +18,88 @@
 	<!-- DON'T WRITE CSS IN YOUR HTML LIKE WE DID HERE - THE INLINE CSS SHOULD HELP YOU TO UNDERSTAND THE BEHAVIOR OF THE ELEMENTS BETTER -
 		 WHEN SUBMITTING, WE ALWAYS EXPECT CLEAR SEPARATION OF HTML, CSS, AND JS INTO THE PROPER FILES -->
 	<body style="padding: 5vh">
-	<div class="container-fluid" style="border: thin solid grey; border-radius: 5px">
-		<div class="row justify-content-center" style="height: 12vh; background: #22223b;">
-			<div class="align-self-center">
-				<h1 style="color: #F2E9E4; text-anchor: middle;">Men's Health Magazine Overtime</h1>
-			</div>
-		</div>
-        <div class="row" style="height: 70vh">
-            
-			<div class="col-6" style="background: #ffffff">
-				<div class="row justify-content-center" style="height: 100%">
-					<div class="align-self-center">
-                        <div id="circleChart"
-                        style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);"></div></div>
-				        </div>
-                    </div>
-			</div>
-
-			<div class="col-6" style="background: #ffffff">
-				<div class="row justify-content-center" style="height: 100%">
-					<div class="row justify-content-center" style="height: 100%">
-						<div class="align-self-center">
-							<div id="areaChart"
-							style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(255, 255, 255, 0.4);">
-						</div>
+		<div class="container-fluid" style="height: 100vh; padding-top: 1vh">
+			<div class="row">
+				<div class="col-10 offset-1" style="border: thin solid grey; border-radius: 5px;">
+		
+					<!-- HEADING -->
+					<div class="row d-flex align-items-center" style="height: 10vh; padding: 0; background: #bcd4e6; border-bottom: thin solid grey">
+						<h1 style="text-align: center">Men's Health (stats)</h1>
 					</div>
+		
+		
+					<!-- MENU -->
+					<!-- <div class="row" style="height: 15vh; background: #ffffff; padding: 1vh">
+						<div class="col"
+							 style="height: 100%; border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
+							<div class="row" style="height: 100%">
+								<div class="col-2 offset-5">
+									<div class="row d-flex" style="height: 100%">
+										<button class="btn btn-outline-secondary align-self-center" type="button"
+												onclick="updateAllVisualizations()" style="border: thin solid grey;">update
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+		
+					<!-- Visualizations -->
+					<div class="row">
+						<div id="magazineCarousel" class="carousel slide" data-ride="carousel" style=" width: 100%">
+                            <div class="carousel-inner">
+
+                                <!-- TABLE -->
+                                <div class="carousel-item">
+                                    <div class="col">
+                                        <div class="row" style="height: 70vh; background: lightgrey; padding: 1vh">
+                                            <div id="heatMap"
+                                                 style="overflow-y: scroll; height: 100%; width:100%; padding: 20px; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- MAP -->
+                                <div class="carousel-item active">
+                                    <div class="col">
+                                        <div class="row" style="height: 70vh; background: lightgrey; padding: 1vh;">
+                                            <div id="circleChart"
+                                                 style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);">
+                                                 <!-- <select id='categorySelector' class="custom-select align-self-center" style="width: 50%" onchange= "categoryChange()">
+                                                    <option value="absCases" selected>Cases (absolute)</option>
+                                                    <option value="absDeaths">Deaths (absolute)</option>
+                                                    <option value="relCases">Cases (relative to population)</option>
+                                                    <option value="relDeaths">Deaths (relative to population)</option>
+                                                </select> -->
+                                                <!-- TODO - DELETE THE LINES BELOW -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+							</div>
+							<div class = "row">
+								<div class = "col">
+									<button id="switchView" class="btn btn-light align-self-center" type="button"
+										onclick="switchViewBack()">back
+									</button>
+								</div>
+								<div class = "col">
+									<button id="switchView" class="btn btn-light align-self-center" type="button" 
+										onclick="switchViewFront()" style = "float:right;">front
+									</button>
+								</div>
+							</div>
+							
+                        </div>
+                    </div>
+					</div>
+
 				</div>
 			</div>
-
-			<div class="col-6" style="background: #ffffff">
-				<div class="row justify-content-center" style="height: 100%">
-					<div class="row justify-content-center" style="height: 100%">
-						<div class="align-self-center">
-							<div id="heatMap"
-							style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(255, 255, 255, 0.4);"></div>
-						</div>
-					</div>
-			</div>
-
-			<div class="col-6" style="background: #ffffff">
-				<div class="row justify-content-center" style="height: 100%">
-					<div class="row justify-content-center" style="height: 100%">
-						<div class="align-self-center">
-							<div id="heatMap"
-							style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(255, 255, 255, 0.4);"></div>
-						</div>
-					</div>
-			</div>
-
-			<div class="col-6" style="background: #ffffff">
-				<div class="row justify-content-center" style="height: 100%">
-					<div class="row justify-content-center" style="height: 100%">
-						<div class="align-self-center">
-							<div id="wordTree"
-							style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(255, 255, 255, 0.4);"></div>
-						</div>
-					</div>
-			</div>
-
 		</div>
-		<div class="row" style="height: 7vh; background: #C9ADA7">
-		</div>
-
 	</div>
 
 
@@ -95,6 +115,8 @@
 	<script src="js/circleChartViz.js"></script>
 	<script src="js/heatMapViz.js"></script>
 	<script src="js/wordTreeViz.js"></script>
+	<script src="js/brithdayViz.js"></script>
+
 
 
 

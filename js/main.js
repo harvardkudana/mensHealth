@@ -4,6 +4,7 @@ let myCirlceChart;
 let myAreaChart;
 let myHeatMap;
 let myWordTree;
+let myBirthdayViz;
 
 
 let promises = [
@@ -28,5 +29,23 @@ function initMainPage(dataArray){
     myCirlceChart = new circleChartViz("circleChart", dataArray[0])
     myHeatMap = new heatMapViz("heatMap", dataArray[0])
     myWordTree = new wordTreeViz("wordTree","fat", dataArray[0], dataArray[1])
+    myBirthdayViz = new brithdayViz("birthdayViz")
 
+}
+
+/* * * * * * * * * * * * * *
+*         Carousel         *
+* * * * * * * * * * * * * */
+
+// Create bootstrap carousel, disabling rotating
+let carousel = new bootstrap.Carousel(document.getElementById('magazineCarousel'), {interval: false})
+
+
+// on button click switch view
+function switchViewBack() {
+    carousel.prev();
+}
+
+function switchViewFront() {
+    carousel.next();
 }
