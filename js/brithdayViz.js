@@ -55,8 +55,8 @@ class brithdayViz{
         //     return context;
         //   })
 
-        TinyQueue = require("tinyqueue@2")
-        d3 = require("d3-interpolate@1", "d3-ease@1")
+        // TinyQueue = require("tinyqueue@2")
+        // d3 = require("d3-interpolate@1", "d3-ease@1")
     }
 
     colorFromHistogram(histogram) {

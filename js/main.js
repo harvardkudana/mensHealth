@@ -26,11 +26,16 @@ function initMainPage(dataArray){
     console.log(dataArray[1])
 
     myAreaChart = new areaChartViz("areaChart", dataArray[0])
-    myCirlceChart = new circleChartViz("circleChart", dataArray[0])
     myHeatMap = new heatMapViz("heatMap", dataArray[0])
-    myWordTree = new wordTreeViz("wordTree","fat", dataArray[0], dataArray[1])
+    myWordTree = new wordTreeViz("wordTree","muscle", dataArray[0], dataArray[1])
+    myCirlceChart = new circleChartViz("circleChart", dataArray[0], dataArray[1], myWordTree )
     myBirthdayViz = new brithdayViz("birthdayViz")
 
+}
+
+function changeMap(){
+    console.log("lol")
+    myHeatMap.changeMap()
 }
 
 /* * * * * * * * * * * * * *

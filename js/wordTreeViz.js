@@ -81,6 +81,11 @@ class wordTreeViz{
 
     wrangleData(){
         let vis = this;
+        vis.word = document.getElementById('actualWord') == null? "muscle" :document.getElementById('actualWord').textContent;
+
+        console.log(vis.word)
+
+
         let wordPairTree = vis.getBracketDepth(vis.word, 3);
         console.log(wordPairTree)
         const treemap = d3.tree().size([vis.height, vis.width - 100]);

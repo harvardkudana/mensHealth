@@ -5,8 +5,10 @@ class heatMapViz{
 
         this.parseDate = d3.timeParse("%Y-%m-%d");
         this.month = ["Jan","Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
-        this.ofRace = false;
+        for (let x = 0; x < this.wordData.length; x++){
+            this.wordData[x]["date"] = this.parseDate(this.wordData[x]["date"].substring(0,10))
+        }
+        this.ofRace = true;
         this.initVis();
     }
 
@@ -49,9 +51,7 @@ class heatMapViz{
         .attr("text-anchor", "start")
 
 
-        for (let x = 0; x < vis.wordData.length; x++){
-            vis.wordData[x]["date"] = vis.parseDate( vis.wordData[x]["date"].substring(0,10))
-        }
+
 
         vis.wrangleData();
 
@@ -287,6 +287,16 @@ class heatMapViz{
  
 		vis.svg.select(".x-axis").call(vis.xAxis);
 		vis.svg.select(".y-axis").call(vis.yAxis);
+    }
+
+    changeMap(){
+       let vis = this
+
+       vis.ofRace = (vis.ofRace = false) 
+
+        console.log("lol")
+        vis.initVis()
+
     }
         
 }

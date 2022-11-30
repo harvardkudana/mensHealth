@@ -1,11 +1,15 @@
 class circleChartViz{
-    constructor(parentElement, wordData) {
+    constructor(parentElement, wordData, pairData, wordTreeViz) {
         this.parentElement = parentElement;
         this.wordData = wordData;
+        this.pairData = pairData;
+        this.wordTreeViz = wordTreeViz;
         this.listOfNotWords = ['your', "the", "to", "in", "you", "for", "of", "this"] 
         this.colors = d3.scaleQuantize()
         .range(["#5E4FA2", "#3288BD", "#66C2A5", "#ABDDA4", "#E6F598", 
         "#FFFFBF", "#FEE08B", "#FDAE61", "#F46D43", "#D53E4F", "#9E0142"]);
+
+        this.chosenWord = "muscle"
 
         this.initVis();
     }
@@ -122,6 +126,10 @@ class circleChartViz{
             circle["location"] = vis.overlapsWithAny([cx,cy,circle["size"]],sizes)
             sizes.push(circle)
         }
+        vis.svg.append("text")
+        .text(vis.chosenWord)
+        .attr("x", -100)
+        .attr("id", "actualWord")
 
         circles
         .enter().append("circle")
@@ -154,9 +162,33 @@ class circleChartViz{
         .attr("font-size", d => {
             return vis.fontSize(d[1])
         })
+        .on("click", (e,d) => {
+            vis.chosenWord = d[0]
+            vis.changeWord(d[0]);
+        })
 
+        vis.svg.append("text")
+        .text("Click on a circle to choose a word!")
+        .attr("x", 0)
+        .attr("y", 350)
+        .attr("id", "chosenWord")
     }
 
+    changeWord(word){
+        let vis = this
+        vis.svg.select("#actualWord")
+        .text(vis.chosenWord)
+
+        vis.wordTreeViz.initVis();
+
+        d3.select("#chosenWord")
+        .text("Click on a circle to choose another word. The chosen word is: " + vis.chosenWord)
+        .attr("x", 0)
+        .attr("y", 350)
+        .attr("id", "chosenWord")
+
+
+    }
     overlapsWithAny(circle, circles){
         let vis = this; 
         let cx = circle[0]
