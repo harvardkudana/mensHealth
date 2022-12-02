@@ -28,7 +28,7 @@ class groupedBarChartViz {
         vis.x = d3.scaleTime()
         .range([0, vis.width])
         .domain(d3.extent(vis.cleanedData, d=>{
-                return vis.parseDate(d.date.substring(0,10))
+                return d.date
         }));
 
         vis.y = d3.scaleLinear()
@@ -48,9 +48,7 @@ class groupedBarChartViz {
 
         vis.svg.append("g")
         .attr("class", "y-axis axis");
-        
-        console.log(vis.cleanedData)
-        
+                
         vis.wrangleData();
 
     }
@@ -58,8 +56,6 @@ class groupedBarChartViz {
     wrangleData(){
         let vis = this;
         
-        vis.displayData = vis.stackedData;
-
 		// Update the visualization
 		vis.updateVis();
     }
@@ -70,7 +66,7 @@ class groupedBarChartViz {
         vis.cleanedData = [];
         for(let x = 0; x < vis.wordData.length; x++){
             // TODO: Add other intervals like minutes, seconds
-            let currentYear = vis.parseDate(vis.wordData[x]["date"].substring(0,10)).getYear();
+            let currentYear = vis.wordData[x]["date"].getFullYear();
             let info = {days : 0, weeks : 0, months : 0, date: vis.wordData[x]["date"]}
             // Check if date already exists
             if (!(currentYear in vis.occurances)){
@@ -103,7 +99,7 @@ class groupedBarChartViz {
             .attr("fill", "orange")
             // Enter update
             .merge(rect)
-            .attr("x", d => vis.x(vis.parseDate(d.date.substring(0,10))))
+            .attr("x", d => vis.x(new Date().setFullYear(d.date.getFullYear())) - 10)
             .attr("y", d => vis.y(d.days))
             .attr("width", 10)
             .attr("height", d => vis.height - vis.y(d.days));
@@ -112,7 +108,7 @@ class groupedBarChartViz {
             .attr("fill", "blue")
             // Enter update
             .merge(rect)
-            .attr("x", d => vis.x(vis.parseDate(d.date.substring(0,10))) + 10)
+            .attr("x", d => vis.x(new Date().setFullYear(d.date.getFullYear())))
             .attr("y", d => vis.y(d.weeks))
             .attr("width", 10)
             .attr("height", d => vis.height - vis.y(d.weeks));
@@ -121,7 +117,7 @@ class groupedBarChartViz {
             .attr("fill", "green")
             // Enter update
             .merge(rect)
-            .attr("x", d => vis.x(vis.parseDate(d.date.substring(0,10))) + 20)
+            .attr("x", d => vis.x(new Date().setFullYear(d.date.getFullYear())) + 10)
             .attr("y", d => vis.y(d.months))
             .attr("width", 10)
             .attr("height", d => vis.height - vis.y(d.months));
@@ -129,7 +125,7 @@ class groupedBarChartViz {
         rect.exit().remove();
 
 		// Call axis functions with the new domain
-		vis.svg.select(".x-axis").call(vis.xAxis);
+		vis.svg.select(".x-axis").call(vis.xAxis.ticks(d3.timeYear));
 		vis.svg.select(".y-axis").call(vis.yAxis);
     }
 }
