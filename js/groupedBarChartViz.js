@@ -18,7 +18,7 @@ class groupedBarChartViz {
 
         vis.margin = {top: 40, right: 40, bottom: 60, left: 40};
 
-		vis.width = 1000 - vis.margin.left - vis.margin.right;
+		vis.width = 800 - vis.margin.left - vis.margin.right;
         vis.height = 400 - vis.margin.top - vis.margin.bottom;
 
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
@@ -43,6 +43,8 @@ class groupedBarChartViz {
 
         vis.yAxis = d3.axisLeft()
             .scale(vis.y);
+
+        vis.legend = d3.select("#barChartDetails").append('div');
 
         vis.tooltip = d3.select("#barChartDetails").append('div')
             .attr('class', "tooltip")
@@ -98,6 +100,15 @@ class groupedBarChartViz {
         vis.cleanData();
 
         vis.colors.domain([0, 1]);
+
+        vis.legend.html(`
+            <p><em>Legend</em><p>
+            <ul>
+                <li style="color:${vis.colors(0.9)}">Short Time Frame ( < Day)</li>
+                <li style="color:${vis.colors(0.3)}">Medium Time Frame (Between Day and Week)</li>
+                <li style="color:${vis.colors(0.6)}">Long Time Frame ( > Month)</li>
+            </ul>
+        `);
 
 		// Draw the layers
 		let rect = vis.svg.selectAll("rect")
