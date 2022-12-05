@@ -37,10 +37,14 @@ class groupedBarChartViz {
 
 
         vis.xAxis = d3.axisBottom()
-        .scale(vis.x);
+            .scale(vis.x);
 
         vis.yAxis = d3.axisLeft()
-        .scale(vis.y);
+            .scale(vis.y);
+
+        vis.tooltip = d3.select("#barChartDetails").append('div')
+            .attr('class', "tooltip")
+            .attr('id', 'barTooltip')
 
         vis.svg.append("g")
         .attr("class", "x-axis axis")
@@ -99,28 +103,147 @@ class groupedBarChartViz {
             .attr("fill", "orange")
             // Enter update
             .merge(rect)
+            .attr("id", d => "days" + d.date.getFullYear())
             .attr("x", d => vis.x(new Date().setFullYear(d.date.getFullYear())) - 10)
             .attr("y", d => vis.y(d.days))
             .attr("width", 10)
-            .attr("height", d => vis.height - vis.y(d.days));
+            .attr("height", d => vis.height - vis.y(d.days))
+            .on('mouseout', function (event, d) {
+                vis.svg.selectAll("rect")
+                    .transition(800)
+                    .style("opacity", 1);
+
+                vis.svg.select("#days" + d.date.getFullYear())
+                    .transition(800)
+                    .style("opacity", 1)
+                    .style("stroke", "none");
+
+                vis.tooltip.data(vis.cleanedData)
+                    .style("opacity", 0);
+            })
+            .on('mouseover', function (event, d) {
+                // Update the size of the hovered circle
+                vis.svg.selectAll("rect")
+                    .transition(800)
+                    .style("opacity", 0.5);
+
+                vis.svg.select("#days" + d.date.getFullYear())
+                    .transition(800)
+                    .style("opacity", 1)
+                    .style("stroke", "black");
+                
+                vis.tooltip.data(vis.cleanedData)
+                    .style("opacity", 1)
+                    .html(`
+                        <div style="border: thick solid orange; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
+                            <h4>Year : ${d.date.getFullYear()}</h4>
+                            <h5>Words Capturing a Time Period of < 1 Day : ${d.days}</h5>
+                            <h6>Eligible Terms Found :</h6>
+                            <ul>
+                                <li>Seconds</li>
+                                <li>Minutes</li>
+                                <li>Hours</li>
+                            </ul>
+                        </div>
+                    `);
+            });
+            
 
         rect.enter().append("rect")
             .attr("fill", "blue")
             // Enter update
             .merge(rect)
+            .attr("id", d => "weeks" + d.date.getFullYear())
             .attr("x", d => vis.x(new Date().setFullYear(d.date.getFullYear())))
             .attr("y", d => vis.y(d.weeks))
             .attr("width", 10)
-            .attr("height", d => vis.height - vis.y(d.weeks));
+            .attr("height", d => vis.height - vis.y(d.weeks))
+            .on('mouseout', function (event, d) {
+                vis.svg.selectAll("rect")
+                    .transition(800)
+                    .style("opacity", 1);
+
+                vis.svg.select("#weeks" + d.date.getFullYear())
+                    .transition(800)
+                    .style("opacity", 1)
+                    .style("stroke", "none");
+
+                vis.tooltip.data(vis.cleanedData)
+                    .style("opacity", 0);
+            })
+            .on('mouseover', function (event, d) {
+                // Update the size of the hovered circle
+                vis.svg.selectAll("rect")
+                    .transition(800)
+                    .style("opacity", 0.5);
+
+                vis.svg.select("#weeks" + d.date.getFullYear())
+                    .transition(800)
+                    .style("opacity", 1)
+                    .style("stroke", "black");
+                
+                vis.tooltip.data(vis.cleanedData)
+                    .style("opacity", 1)
+                    .html(`
+                        <div style="border: thick solid blue; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
+                            <h4>Year : ${d.date.getFullYear()}</h4>
+                            <h5>Words Capturing a Time Period > 1 Day but < 1 Month : ${d.weeks}</h5>
+                            <h6>Eligible Terms Found :</h6>
+                            <ul>
+                                <li>Days</li>
+                                <li>Weeks</li>
+                            </ul>
+                        </div>
+                    `);
+            });
 
         rect.enter().append("rect")
             .attr("fill", "green")
             // Enter update
             .merge(rect)
+            .attr("id", d => "months" + d.date.getFullYear())
             .attr("x", d => vis.x(new Date().setFullYear(d.date.getFullYear())) + 10)
             .attr("y", d => vis.y(d.months))
             .attr("width", 10)
-            .attr("height", d => vis.height - vis.y(d.months));
+            .attr("height", d => vis.height - vis.y(d.months))
+            .on('mouseout', function (event, d) {
+                vis.svg.selectAll("rect")
+                    .transition(800)
+                    .style("opacity", 1);
+
+                vis.svg.select("#months" + d.date.getFullYear())
+                    .transition(800)
+                    .style("opacity", 1)
+                    .style("stroke", "none");
+
+                vis.tooltip.data(vis.cleanedData)
+                    .style("opacity", 0);
+            })
+            .on('mouseover', function (event, d) {
+                // Update the size of the hovered circle
+                vis.svg.selectAll("rect")
+                    .transition(800)
+                    .style("opacity", 0.5);
+
+                vis.svg.select("#months" + d.date.getFullYear())
+                    .transition(800)
+                    .style("opacity", 1)
+                    .style("stroke", "black");
+                
+                vis.tooltip.data(vis.cleanedData)
+                    .style("opacity", 1)
+                    .html(`
+                        <div style="border: thick solid green; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
+                            <h4>Year : ${d.date.getFullYear()}</h4>
+                            <h5>Words Capturing a Time Period > 1 Month : ${d.months}</h5>
+                            <h6>Eligible Terms Found :</h6>
+                            <ul>
+                                <li>Months</li>
+                                <li>Years</li>
+                            </ul>
+                        </div>
+                    `);
+            });
 
         rect.exit().remove();
 
