@@ -2,6 +2,8 @@ class lineChartViz{
     constructor(parentElement, wordData) {
         this.parentElement = parentElement;
         this.wordData = wordData;
+        this.colors = d3.scaleLinear()
+            .range(["black", "red"]);
 
         // parse date method
         this.parseDate = d3.timeParse("%Y-%m-%d");
@@ -94,15 +96,18 @@ class lineChartViz{
     updateVis(){
         let vis = this;
 
+        vis.colors.domain([0, 1]);
+
         vis.sexyLine = d3.line()
             .x(d => vis.x(new Date("January 1").setFullYear(d.date.getFullYear())))
             .y(d => vis.y(d.sex))
             .curve(d3.curveLinear);
 
+
         vis.sexyPath.datum(vis.cleanedData)
             .attr("d", vis.sexyLine)
             .attr("fill", "none")
-            .attr("stroke", "blue");
+            .attr("stroke", vis.colors(0.3));
 
         vis.womenLine = d3.line()
             .x(d => vis.x(new Date("January 1").setFullYear(d.date.getFullYear())))
@@ -112,7 +117,7 @@ class lineChartViz{
         vis.womenPath.datum(vis.cleanedData)
             .attr("d", vis.womenLine)
             .attr("fill", "none")
-            .attr("stroke", "pink");
+            .attr("stroke", vis.colors(1));
 
         let circle = vis.svg.selectAll("circle")
             .data(vis.cleanedData);
@@ -120,7 +125,7 @@ class lineChartViz{
         // Enter (initialize the newly added elements)
         circle.enter().append("circle")
             .attr("class", "dot")
-            .attr("fill", "blue")
+            .attr("fill", vis.colors(0.3))
             // Enter and Update (set the dynamic properties of the elements)
             .merge(circle)
             .attr("id", d => "sex" + d.date.getFullYear())
@@ -146,7 +151,7 @@ class lineChartViz{
                 vis.tooltip.data(vis.cleanedData)
                     .style("opacity", 1)
                     .html(`
-                        <div style="border: thick solid blue; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
+                        <div style="border: thick solid ${vis.colors(0.3)}; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
                             <h4>Year: ${d.date.getFullYear()}</h4>
                             <h5>Words Focused on Attraction: ${d.sex}</h5>
                             <h6>List of Eligible Words to Describe Attraction:</h6>
@@ -163,7 +168,9 @@ class lineChartViz{
 
         circle.enter().append("circle")
             .attr("class", "dot")
-            .attr("fill", "pink")
+            .attr("fill", d => {
+                return vis.colors(0.9)
+            })
             // Enter and Update (set the dynamic properties of the elements)
             .merge(circle)
             .attr("id", d => "women" + d.date.getFullYear())
@@ -186,7 +193,7 @@ class lineChartViz{
                 vis.tooltip.data(vis.cleanedData)
                     .style("opacity", 1)
                     .html(`
-                        <div style="border: thick solid pink; border-radius: 5px; background-color: white; padding: 15px; width: 90%">
+                        <div style="border: thick solid ${vis.colors(0.9)}; border-radius: 5px; background-color: white; padding: 15px; width: 90%">
                             <h4>Year: ${d.date.getFullYear()}</h4>
                             <h5>Words Focused on Women: ${d.women}</h5>
                             <h6>List of Eligible Words Associated with the Opposite Sex:</h6>

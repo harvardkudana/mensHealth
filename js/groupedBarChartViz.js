@@ -2,6 +2,8 @@ class groupedBarChartViz {
     constructor(parentElement, wordData) {
         this.parentElement = parentElement;
         this.wordData = wordData;
+        this.colors = d3.scaleLinear()
+            .range(["black", "red"]);
 
         // parse date method
         this.parseDate = d3.timeParse("%Y-%m-%d");
@@ -95,12 +97,14 @@ class groupedBarChartViz {
         let vis = this;
         vis.cleanData();
 
+        vis.colors.domain([0, 1]);
+
 		// Draw the layers
 		let rect = vis.svg.selectAll("rect")
             .data(vis.cleanedData);
 
         rect.enter().append("rect")
-            .attr("fill", "orange")
+            .attr("fill", vis.colors(0.9))
             // Enter update
             .merge(rect)
             .attr("id", d => "days" + d.date.getFullYear())
@@ -135,7 +139,7 @@ class groupedBarChartViz {
                 vis.tooltip.data(vis.cleanedData)
                     .style("opacity", 1)
                     .html(`
-                        <div style="border: thick solid orange; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
+                        <div style="border: thick solid ${vis.colors(0.9)}; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
                             <h4>Year : ${d.date.getFullYear()}</h4>
                             <h5>Words Capturing a Time Period of < 1 Day : ${d.days}</h5>
                             <h6>Eligible Terms Found :</h6>
@@ -150,7 +154,7 @@ class groupedBarChartViz {
             
 
         rect.enter().append("rect")
-            .attr("fill", "blue")
+            .attr("fill", vis.colors(0.3))
             // Enter update
             .merge(rect)
             .attr("id", d => "weeks" + d.date.getFullYear())
@@ -185,7 +189,7 @@ class groupedBarChartViz {
                 vis.tooltip.data(vis.cleanedData)
                     .style("opacity", 1)
                     .html(`
-                        <div style="border: thick solid blue; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
+                        <div style="border: thick solid ${vis.colors(0.3)}; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
                             <h4>Year : ${d.date.getFullYear()}</h4>
                             <h5>Words Capturing a Time Period > 1 Day but < 1 Month : ${d.weeks}</h5>
                             <h6>Eligible Terms Found :</h6>
@@ -198,7 +202,7 @@ class groupedBarChartViz {
             });
 
         rect.enter().append("rect")
-            .attr("fill", "green")
+            .attr("fill", vis.colors(0.6))
             // Enter update
             .merge(rect)
             .attr("id", d => "months" + d.date.getFullYear())
@@ -233,7 +237,7 @@ class groupedBarChartViz {
                 vis.tooltip.data(vis.cleanedData)
                     .style("opacity", 1)
                     .html(`
-                        <div style="border: thick solid green; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
+                        <div style="border: thick solid ${vis.colors(0.6)}; border-radius: 5px; background-color: white; padding: 15px; width: 95%">
                             <h4>Year : ${d.date.getFullYear()}</h4>
                             <h5>Words Capturing a Time Period > 1 Month : ${d.months}</h5>
                             <h6>Eligible Terms Found :</h6>
