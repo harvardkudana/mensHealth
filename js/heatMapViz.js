@@ -22,6 +22,7 @@ class heatMapViz{
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+        .attr("id", "heatMapSVG")
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
@@ -292,9 +293,10 @@ class heatMapViz{
     changeMap(){
        let vis = this
 
+       d3.select("#heatMapSVG").remove();
+
        vis.ofRace = (vis.ofRace = false) 
 
-        console.log("lol")
         vis.initVis()
 
     }

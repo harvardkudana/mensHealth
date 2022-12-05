@@ -6,3 +6,37 @@ body {
 
 h1 {
 }
+
+#title{
+	color: rgb(214, 2, 2);
+	font: 'Times New Roman';
+	font-weight: bolder;
+	font-size: 75px;
+}
+
+.slide{
+	height: 73vh; 
+	background: ffff; 
+	padding: 1vh
+}
+
+.vizBackground{
+	overflow-y: scroll; 
+	height: 100%; 
+	width:100%; 
+	padding: 20px; 
+	border: thin solid grey; 
+	border-radius: 5px; 
+	margin: 0 auto;
+	background: rgb(255, 255, 255);
+}
+
+#chosenWord{
+	fill: red;
+	font-size: 45px;
+	font-weight: bold;
+}
+
+#chartTitle{
+	text-align: center;
+}
