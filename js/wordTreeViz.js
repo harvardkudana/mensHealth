@@ -1,16 +1,13 @@
 class wordTreeViz{
-    constructor(parentElement,word,  wordData, wordPairData) {
+    constructor(parentElement,word, wordData, wordPairData) {
         this.parentElement = parentElement;
         this.word = word;
         this.wordPairData = wordPairData;
         this.listOfNotWords = ['your', "the", "to", "in", "you", "for", "of", "this"] 
-        this.color = d3.scaleSequential()
+        this.color = d3.scaleLinear()
         .domain([1, 4])
-        .interpolator(d3.interpolateCool);
+        .range(["red", "black"]);
         this.initVis();
-
-        // this.color = {'3':"0a8cff", '2':"#ff0a8c", '1':"#8cff0a"}
-
     }
 
     initVis(){
@@ -20,12 +17,14 @@ class wordTreeViz{
         vis.width = 700 - vis.margin.left - vis.margin.right;
         vis.height = 400 - vis.margin.top - vis.margin.bottom;
         
+        d3.select("#theSVG").remove();
+
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
         .attr("height", vis.height + vis.margin.top + vis.margin.bottom)
+        .attr("id", "theSVG")
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
-
 
         vis.wrangleData();
     }
@@ -38,7 +37,7 @@ class wordTreeViz{
         if (depth == 0 || word == []){
             return
         }
-        // console.log(word)
+
         for(let x = 0; x < vis.wordPairData.length; x++){
             let pair = vis.wordPairData[x]["word"]
             let index = pair.indexOf("-")
@@ -81,13 +80,9 @@ class wordTreeViz{
 
     wrangleData(){
         let vis = this;
-        vis.word = document.getElementById('actualWord') == null? "muscle" :document.getElementById('actualWord').textContent;
-
-        console.log(vis.word)
-
+        vis.word = document.getElementById('chosenWord') == null? "muscle" :document.getElementById('chosenWord').textContent;
 
         let wordPairTree = vis.getBracketDepth(vis.word, 3);
-        console.log(wordPairTree)
         const treemap = d3.tree().size([vis.height, vis.width - 100]);
         let nodes = d3.hierarchy(wordPairTree, d => {
             if (d != null){
@@ -102,9 +97,14 @@ class wordTreeViz{
 
     updateVis(){
         let vis = this;
+
+        d3.selectAll(".node").remove();
+        d3.selectAll(".link").remove();
+
+
         let node = vis.svg.selectAll(".node")
-      .data(vis.nodes.descendants())
-      .enter().append("g")
+        .data(vis.nodes.descendants())
+        .enter().append("g")
             .attr("class", d => "node" + (d.children ? " node--internal"
                 : " node--leaf"))
             .attr("transform", d => "translate(" + d.y + "," +
@@ -127,7 +127,7 @@ class wordTreeViz{
             .data(vis.nodes.descendants().slice(1))
             .enter().append("path")
             .attr("class", "link")
-            // .style("stroke", d => d.data.level)
+            .style("stroke", d => d.data.level)
             .attr("d", d => {
                 return "M" + d.y + "," + d.x
                     + "C" + (d.y + d.parent.y) / 2 + "," + d.x

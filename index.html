@@ -23,38 +23,21 @@
 				<div class="col-10 offset-1" style="border: thin solid grey; border-radius: 5px;">
 		
 					<!-- HEADING -->
-					<div class="row d-flex align-items-center" style="height: 10vh; padding: 0; background: #bcd4e6; border-bottom: thin solid grey">
-						<h1 style="text-align: center">Men's Health (stats)</h1>
+					<div class="row d-flex align-items-center" style="height: 12vh; padding: 0; background: #ffffff; border-bottom: thin solid grey">
+						<h1 style="text-align: center;" id = "title">Men's Health</h1>
 					</div>
-		
-		
-					<!-- MENU -->
-					<!-- <div class="row" style="height: 15vh; background: #ffffff; padding: 1vh">
-						<div class="col"
-							 style="height: 100%; border: thin solid lightgrey; border-radius: 5px; background: #d6e2e9">
-							<div class="row" style="height: 100%">
-								<div class="col-2 offset-5">
-									<div class="row d-flex" style="height: 100%">
-										<button class="btn btn-outline-secondary align-self-center" type="button"
-												onclick="updateAllVisualizations()" style="border: thin solid grey;">update
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> -->
 		
 					<!-- Visualizations -->
 					<div class="row">
+						<h4 id = "chartTitle">
+						</h4>
 						<div id="magazineCarousel" class="carousel slide" data-ride="carousel" style=" width: 100%">
                             <div class="carousel-inner">
-
                                 <!-- TABLE -->
                                 <div class="carousel-item">
                                     <div class="col">
-                                        <div class="row" style="height: 70vh; background: lightgrey; padding: 1vh">
-                                            <div id="heatMap"
-												 style="overflow-y: scroll; height: 100%; width:100%; padding: 20px; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);">
+                                        <div class="row" class="slide">
+                                            <div id="heatMap" class = "vizBackground">
 												<button onClick = changeMap() >Click to change Heat Map</button>
 												</div>
 										</div>
@@ -64,29 +47,18 @@
                                 <!-- MAP -->
                                 <div class="carousel-item active">
                                     <div class="col">
-                                        <div class="row" style="height: 70vh; background: lightgrey; padding: 1vh;">
-                                            <div id="circleChart"
-                                                 style="height: 100%; width:100%; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);">
-                                                 <!-- <select id='categorySelector' class="custom-select align-self-center" style="width: 50%" onchange= "categoryChange()">
-                                                    <option value="absCases" selected>Cases (absolute)</option>
-                                                    <option value="absDeaths">Deaths (absolute)</option>
-                                                    <option value="relCases">Cases (relative to population)</option>
-                                                    <option value="relDeaths">Deaths (relative to population)</option>
-                                                </select> -->
-                                                <!-- TODO - DELETE THE LINES BELOW -->
+                                        <div class="row" class = "slide">
+                                            <div id="circleChart" class = "vizBackground">
 											</div>
-											
 										</div>
 									</div>
-
 								</div>
 								
 								<div class="carousel-item">
                                     <div class="col">
-                                        <div class="row" style="height: 70vh; background: lightgrey; padding: 1vh">
-                                            <div id="wordTree"
-                                                 style="overflow-y: scroll; height: 100%; width:100%; padding: 20px; border: thin solid grey; border-radius: 5px; background: rgba(64,64,64,0.4);">
-                                            </div>
+                                        <div class="row" class = "slide">
+                                            <div id="wordTree" class = "vizBackground">
+											</div>
                                         </div>
                                     </div>
                                 </div>
@@ -96,12 +68,12 @@
 							<div class = "row">
 								<div class = "col">
 									<button id="switchView" class="btn btn-light align-self-center" type="button"
-										onclick="switchViewBack()">back
+										onclick="switchViewBack()">Flip Back
 									</button>
 								</div>
 								<div class = "col">
 									<button id="switchView" class="btn btn-light align-self-center" type="button" 
-										onclick="switchViewFront()" style = "float:right;">front
+										onclick="switchViewFront()" style = "float:right;">Flip Forward
 									</button>
 								</div>
 							</div>
@@ -109,7 +81,6 @@
                         </div>
                     </div>
 					</div>
-					With many of these visuals you may have to scroll down to see the updated viz (will fix in next version)
 				</div>
 			</div>
 			<div id="trends">
