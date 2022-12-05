@@ -48,6 +48,8 @@ class lineChartViz{
         vis.yAxis = d3.axisLeft()
             .scale(vis.y);
 
+        vis.legend = d3.select("#lineChartDetails").append('div');
+
         vis.tooltip = d3.select("#lineChartDetails").append('div')
             .attr('class', "tooltip")
             .attr('id', 'lineTooltip')
@@ -119,8 +121,17 @@ class lineChartViz{
             .attr("fill", "none")
             .attr("stroke", vis.colors(1));
 
+        vis.legend.html(`
+            <p><em>Legend</em><p>
+            <ul>
+                <li style="color:${vis.colors(0.3)}">Attraction Term</li>
+                <li style="color:${vis.colors(0.9)}">Opposite Sex Term</li>
+            </ul>
+        `);
+
         let circle = vis.svg.selectAll("circle")
             .data(vis.cleanedData);
+
         
         // Enter (initialize the newly added elements)
         circle.enter().append("circle")
