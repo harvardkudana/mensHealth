@@ -74,7 +74,6 @@ function getParentElement(){
     console.log(children[0].children[0].children[0].id)
     if(vizDict[children[0].children[0].children[0].id] == "circleChart"){
        d3.select("#chartTitle").text("20 most common words in Men's Health Magazine Covers")
-       chosenWord = (document.getElementById('chosenWord') == null? "muscle" :document.getElementById('chosenWord').textContent);
     }
     else if(vizDict[children[0].children[0].children[0].id] == "wordTree"){
         d3.select("#chartTitle").text("Word Tree - 3 most common subsequent words")

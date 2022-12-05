@@ -18,6 +18,8 @@ class wordTreeViz{
         vis.height = 400 - vis.margin.top - vis.margin.bottom;
         
         d3.select("#theSVG").remove();
+        d3.select("#wordTreeSVG").remove();
+
 
         vis.svg = d3.select("#" + vis.parentElement).append("svg")
         .attr("width", vis.width + vis.margin.left + vis.margin.right)
@@ -26,6 +28,36 @@ class wordTreeViz{
         .append("g")
         .attr("transform", "translate(" + vis.margin.left + "," + vis.margin.top + ")");
 
+        vis.textBox = d3.select("#" + vis.parentElement).append("svg")
+        .attr("width", 400)
+        .attr("height", 300)
+        .attr("id", "wordTreeSVG")
+
+
+        vis.textBox.append("text")
+        .text("Here are 3 made up sentences based on this data")
+        .attr("x", 0)
+        .attr("y", 50)
+        .attr("id", "wordTreeSentence")
+
+        vis.textBox.append("text")
+        .text("Here are 3 made up sentences based on this data")
+        .attr("x", 0)
+        .attr("y", 90)
+        .attr("id", "wordTreeSentence1")
+
+        vis.textBox.append("text")
+        .text("Here are 3 made up sentences based on this data")
+        .attr("x", 0)
+        .attr("y", 110)
+        .attr("id", "wordTreeSentence2")
+
+        vis.textBox.append("text")
+        .text("Here are 3 made up sentences based on this data")
+        .attr("x", 0)
+        .attr("y", 130)
+        .attr("id", "wordTreeSentence3")
+        
         vis.wrangleData();
     }
 
@@ -91,15 +123,27 @@ class wordTreeViz{
         });
         vis.nodes = treemap(nodes);
 
-        vis.updateVis();
+        let pairTreeForSentence = vis.getBracketDepth(vis.word, 6);
+
+        vis.Sentence1 = "-"+vis.word +" "+ pairTreeForSentence.children[0].word +" "+ (vis.makeSentence(pairTreeForSentence.children[0], 4))
+        vis.Sentence2 = "-"+vis.word +" "+ pairTreeForSentence.children[1].word +" "+ (vis.makeSentence(pairTreeForSentence.children[1], 4))
+        vis.Sentence3 = "-"+vis.word +" "+ pairTreeForSentence.children[2].word +" " +(vis.makeSentence(pairTreeForSentence.children[2], 4))
+        vis.updateVis()
     }
 
+    makeSentence(pairTree, depth){
+        if (pairTree.children != null){
+        return pairTree.children[0].word + " " + this.makeSentence(pairTree.children[0], depth - 1)}
+        return ""
+    }
 
+    
     updateVis(){
         let vis = this;
 
         d3.selectAll(".node").remove();
         d3.selectAll(".link").remove();
+        
 
 
         let node = vis.svg.selectAll(".node")
@@ -156,5 +200,10 @@ class wordTreeViz{
                     return d.data.word
                 }
             });
+
+        d3.select("#wordTreeSentence1").text(vis.Sentence1)
+        d3.select("#wordTreeSentence2").text(vis.Sentence2)
+        d3.select("#wordTreeSentence3").text(vis.Sentence3)
+
     }
 }

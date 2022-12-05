@@ -52,6 +52,24 @@ class heatMapViz{
         .attr("text-anchor", "start")
 
 
+        vis.textBox = d3.select("#" + vis.parentElement).append("svg")
+        .attr("width", 200)
+        .attr("height", 200)
+        .attr("id", "sentenceSVG")
+
+
+        vis.textBox.append("text")
+        .text("Hover over a square to see")
+        .attr("x", 0)
+        .attr("y", 50)
+        .attr("id", "sentence1")
+
+
+        vis.textBox.append("text")
+        .text("that month's edition!")
+        .attr("x", 0)
+        .attr("y", 70)
+        .attr("id", "sentence2")
 
 
         vis.wrangleData();
@@ -224,6 +242,8 @@ class heatMapViz{
             }
             return vis.color(vis.min)
         })
+        .attr("stroke", "black")
+        .attr('stroke-width', '1px')
 
         vis.svg.append("rect")
         .attr("x", 300)
@@ -238,6 +258,8 @@ class heatMapViz{
             }
             return vis.color(vis.max)
         })
+        .attr("stroke", "black")
+        .attr('stroke-width', '1px')
 
         let boxOne = "Max"
         let boxTwo = "Min"
@@ -265,6 +287,8 @@ class heatMapViz{
             .style("fill", (d) => {
                 return "orange"
             })
+            .attr("stroke", "black")
+            .attr('stroke-width', '1px')
     
             vis.svg.append("rect")
             .attr("x", 400)
@@ -276,6 +300,8 @@ class heatMapViz{
             .style("fill", (d) => {
                 return "black"
             })
+            .attr("stroke", "black")
+            .attr('stroke-width', '1px')
         }
         vis.svg.append("text")
         .text(boxOne)
@@ -296,7 +322,9 @@ class heatMapViz{
        let vis = this
 
        console.log("removed")
+       d3.select("#sentenceSVG").remove();
        d3.select("#heatMapSVG").remove();
+
         vis.ofRace = (vis.ofRace == false)
 
 
