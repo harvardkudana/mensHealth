@@ -183,15 +183,15 @@ class heatMapViz{
             let jpeg = ""            
             jpeg = "imgs/" + vis.picDict[d[0]] + ".jpg" 
             d3.select(this)
-            .attr('stroke-width', '2px')
+            .attr('stroke-width', '3px')
             .attr('stroke', 'black')
             
             vis.tooltip
             .style("opacity", 1)
             .attr("x", 0)
-            .attr("y", 10)
-            .style("left", event.pageX + 20 + "px")
-            .style("top", event.pageY + "px")
+            .attr("y", -600)
+            .style("left", (event.pageX - 150)+ "px")
+            .style("top", (event.pageY - 250)+"px")
             .html(`
                 <div style="border: thin solid grey; border-radius: 5px; background: lightgrey; padding: 20px">
                     <img src="${jpeg}" alt="image is not available" height = "200" width = "150">                                                                      
@@ -200,14 +200,16 @@ class heatMapViz{
         })
         .on('mouseout', function(event, d){
             d3.select(this)
-                .attr('stroke-width', '0px')
+                .attr('stroke-width', '1px')
             
             vis.tooltip
                 .style("opacity", 0)
                 .style("left", 0)
                 .style("top", 0)
                 .html(``);
-        });
+        })
+        .attr("stroke", "black")
+        .attr('stroke-width', '1px');
 
         vis.svg.append("rect")
         .attr("x", 200)
@@ -293,9 +295,10 @@ class heatMapViz{
     changeMap(){
        let vis = this
 
+       console.log("removed")
        d3.select("#heatMapSVG").remove();
+        vis.ofRace = (vis.ofRace == false)
 
-       vis.ofRace = (vis.ofRace = false) 
 
         vis.initVis()
 
